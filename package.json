@@ -1,0 +1,14 @@
+{
+  "name": "Note",
+  "raw": "note_skill",
+  "version": "1.0.0",
+  "description":"Basic Note app",
+  "packages":[],
+  "dependencies": [],
+  "author":"Cassim Khouani",
+  "license": "Creative Commons 3.0 France",
+  "navbar":"True",
+  "data":"True",
+  "index":"note.index",
+  "config":"note.config"
+}
