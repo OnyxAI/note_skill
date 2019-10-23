@@ -1,0 +1,9 @@
+*.py[co]
+__pycache__
+*.pyc
+.cache
+.vscode
+
+*.mo
+*.dropbox.attr
+venv
