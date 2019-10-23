@@ -1,0 +1,125 @@
+{% extends "layout/default.html" %}
+
+{% set title = _("Note") %}
+
+{% block css %}
+  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+  <div class="card-panel white">
+
+      <div class="row">
+
+          <div class="col m3 s12">
+              <ul class="collection with-header">
+                  <li class="collection-header"><h4><a href="{{ url_for('note.index') }}">Notes</a></h4></li>
+                  {% for note in notes %}
+                    <li class="collection-item"><div>{{note.title}}<a href="{{ url_for('note.display', _id=note.id) }}" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                  {% endfor %}
+                  {% if notes == [] %}
+                      <p>No note</p>
+                  {% endif %}
+                </ul>
+          </div>
+    
+          {% if note is defined %}
+            <div class="col m9 s12">
+                <form action="{{url_for('note.edit', _id=note.id)}}" id="add_note" method="post">
+                <div class="input-field col s12">
+                    <input value="{{note.title}}" name="title" placeholder="Title" type="text" class="center">
+                </div>
+
+
+                <div class="row">
+                    <div class="col s1 m1"><button type="submit" class="btn-floating btn-large waves-effect waves-light {{ g.color }}"><i class="material-icons">done</i></button></div>
+                </div>
+              
+
+                <br>
+                <div id="toolbar">
+                  <span class="ql-formats">
+                    <select class="ql-font"></select>
+                    <select class="ql-size"></select>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-script" value="sub"></button>
+                    <button class="ql-script" value="super"></button>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-header" value="1"></button>
+                    <button class="ql-header" value="2"></button>
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-code-block"></button>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-list" value="check"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-direction" value="rtl"></button>
+                    <select class="ql-align"></select>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <button class="ql-image"></button>
+                    <button class="ql-video"></button>
+                    <button class="ql-formula"></button>
+                    </span>
+                    <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                    </span>
+                </div>
+          
+                <!-- Create the editor container -->
+                <div id="editor">
+                  {{note.text|safe}}
+                </div>
+                </form>
+            </div>
+          {% else %}
+            <p>No note with this id : <a href="{{ url_for('note.index') }}">Home</a></p>
+          {% endif %}
+
+        </div>
+    
+      </div>
+     
+
+{% endblock %}
+
+{% block script %}
+
+  <!-- Include the Quill library -->
+  <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+  <!-- Initialize Quill editor -->
+  <script>
+    var editor = new Quill('#editor', {
+      modules: { toolbar: '#toolbar' },
+      theme: 'snow'
+    });
+
+    $(document).ready(function(){
+      $("#add_note").on("submit", function () {
+        var hvalue = $('.ql-editor').html();
+        $(this).append("<textarea name='content' style='display:none'>"+hvalue+"</textarea>");
+      });
+    });
+  </script>
+
+{% endblock %}

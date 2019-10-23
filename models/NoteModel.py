@@ -10,6 +10,11 @@ from onyx.extensions import db
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(64))
+    title = db.Column(db.String(64))
+    folder = db.Column(db.String(64))
+    text = db.Column(db.String())
+
 
     @property
     def is_active(self):
