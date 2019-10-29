@@ -9,8 +9,11 @@ You may not use this software for commercial purposes.
 
 from note_skill.index import note
 from flask_login import login_required, current_user
-from flask import render_template, g, request, redirect, url_for
+from flask import render_template, g, request, redirect, url_for, session
+from flask_jwt_extended import get_jwt_identity, decode_token
+from onyx.decorators import api_required
 from onyx.api.assets import Json
+from onyx.core.controllers.api import api
 from note_skill.api import *
 
 notes_api = Note()
@@ -39,6 +42,23 @@ def display(_id):
     notes = json.decode()
 
     return render_template('note/index.html', note=note, notes=notes)
+
+@api.route('/note/add' , methods=['GET','POST'])
+@api_required
+def add_api():
+    if request.method == 'POST':
+        try:
+            current_user = decode_token(session['token'])['identity']
+        except:	
+            current_user = get_jwt_identity()
+
+        notes_api.user = current_user['id']
+        notes_api.title = request.form['title']
+        notes_api.text = request.form['content']
+
+        notes_api.add()
+
+        return notes_api.add()
 
 @note.route('/add' , methods=['GET','POST'])
 @login_required
