@@ -15,6 +15,6 @@ __all__ = [os.path.basename(f)[:-3] for f in glob.glob(os.path.dirname(__file__)
 
 from flask import Blueprint
 
-note = Blueprint('note', __name__, url_prefix='/note', template_folder='templates')
+note = Blueprint('note', __name__, url_prefix='/note', template_folder='templates', static_folder='static')
 
 from note_skill.controllers import *

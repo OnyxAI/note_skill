@@ -42,6 +42,7 @@ class Note:
     def get_all(self):
         try:
             query = NoteModel.Note.query.filter(NoteModel.Note.user.endswith(self.user)).all()
+            
             notes = []
 
             for fetch in query:

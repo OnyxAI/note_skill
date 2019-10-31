@@ -3,7 +3,7 @@
 {% set title = _("Note") %}
 
 {% block css %}
-  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="{{url_for('note.static', filename='css/quill.snow.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -23,6 +23,7 @@
                   {% endif %}
                 </ul>
           </div>
+
     
           {% if note is defined %}
             <div class="col s12 m9">
